@@ -66,7 +66,10 @@ if ($_POST['submit']) {
         echo"<img src= $pimg3>";
     }
     echo"<img src=$pimg1>";
-    echo '<span style = "color:red">You have completed ', $percentage, '%, get hard!</span>';
+    if ($percentage != "100")
+        echo '<span style = "color:red">You have completed ', $percentage, '%, get hard!</span>';
+    else
+        echo '<span style = "color:red">You have completed the work, congratulations!</span>';
     ?>
     <form action="<?php echo $SCRIPT_NAME . '?id=' . $validentry; ?>" method="post">
 
@@ -75,20 +78,20 @@ if ($_POST['submit']) {
                 <td>Chapter</td>
                 <td>
                     <select name="chapter">
-    <?php
-    $chpsql = "SELECT * FROM chapters;";
-    $chpres = mysql_query($chpsql);
+                        <?php
+                        $chpsql = "SELECT * FROM chapters;";
+                        $chpres = mysql_query($chpsql);
 
-    while ($chprow = mysql_fetch_assoc($chpres)) {
-        echo "<option value='" . $chprow['id'] . "'";
+                        while ($chprow = mysql_fetch_assoc($chpres)) {
+                            echo "<option value='" . $chprow['id'] . "'";
 
-        if ($chprow['id'] == $fillrow['chapter_id']) {
-            echo "selected";
-        }
+                            if ($chprow['id'] == $fillrow['chapter_id']) {
+                                echo "selected";
+                            }
 
-        echo ">" . $chprow['chapter'] . "</option>";
-    }
-    ?>
+                            echo ">" . $chprow['chapter'] . "</option>";
+                        }
+                        ?>
                     </select>
                 </td>
             </tr>
