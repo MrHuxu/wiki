@@ -25,13 +25,17 @@ mysql_select_db($dbdatabase, $db);
 
 if ($_POST['submit']) {
     $_POST['eDeadline'] = date("Y-m-d", strtotime($_POST['eDeadline']));
-    $sql = "INSERT INTO entries(chapter_id, dateposted, subject, body, eDeadline) VALUES
-		(" . $_POST['chapter'] . ", NOW(), '" . $_POST['subject'] . "', '" . $_POST['body'] . "', '" . $_POST['eDeadline'] . "');";
+    $sql = "INSERT INTO entries(chapter_id, dateposted, subject,  eDeadline) VALUES
+		(" . $_POST['chapter'] . ", NOW(), '" . $_POST['subject'] . "','" . $_POST['eDeadline'] . "');";
     mysql_query($sql);
 
     $sql = "SELECT * FROM entries ORDER BY dateposted DESC LIMIT 1;";
     $result = mysql_query($sql);
     $row = mysql_fetch_assoc($result);
+    
+    $sql = "INSERT INTO version_ctrl(content, entry_id, version_id, dateposted, donePercent) VALUES
+        ('" . $_POST['body'] . "','".$row['id']."',1,NOW(), 0);";
+    mysql_query($sql);
 
     header("Location: " . $config_basedir . "viewentry.php?id=" . $row['id']);
 } else {
